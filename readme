@@ -5,3 +5,4 @@
 5. In the `client` folder, run:
    - `npm install` to install dependencies.
    - `npm start` to start the React development server.
+6. (Important) The database needs to be exported by the creator of the web
