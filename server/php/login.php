@@ -8,9 +8,7 @@ header("Access-Control-Allow-Headers: Content-Type");
 
 require_once 'db.php';
 
-
 $data = json_decode(file_get_contents('php://input'), true);
-
 
 $email = $data['email'] ?? '';
 $password = $data['password'] ?? '';
@@ -20,7 +18,7 @@ if (empty($email) || empty($password)) {
     exit();
 }
 
-$query = "SELECT id, password FROM users WHERE email = ?";
+$query = "SELECT id, password, firstname FROM users WHERE email = ?";  
 $stmt = $conn->prepare($query);
 $stmt->bind_param("s", $email);
 $stmt->execute();
@@ -32,7 +30,12 @@ if ($result->num_rows > 0) {
         $_SESSION['user_id'] = $user['id'];
         $_SESSION['last_activity'] = time();  
 
-        echo json_encode(["success" => true, "message" => "Login successful"]);
+        echo json_encode([
+            "success" => true,
+            "message" => "Login successful",
+            "user_id" => $user['id'],
+            "firstname" => $user['firstname']  
+        ]);
     } else {       
         echo json_encode(["success" => false, "message" => "Invalid password."]);
     }
