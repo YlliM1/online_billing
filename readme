@@ -1,0 +1,11 @@
+1. Clone the repository: `git clone <https://github.com/YlliM1/online_billing>`
+2. Move the  folder to your XAMPP `htdocs` directory.
+3. Start XAMPP and ensure Apache and MySQL are running.
+4. 4. In the terminal on VS Code go to the folder you've taken, go to server subfolder, by typing cd server
+5. In the `server` folder, run:
+   - `npm install` to install dependencies.
+4. In the terminal on VS Code go to the folder you've taken, go to client subfolder, by typing cd client
+5. In the `client` folder, run:
+   - `npm install` to install dependencies.
+   - `npm start` to start the React development server.
+6. (Important) The database needs to be exported by the creator of the web
