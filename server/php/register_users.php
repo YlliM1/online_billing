@@ -37,4 +37,6 @@ if (isset($data['firstname']) && isset($data['lastname']) && isset($data['email'
 } else {
     echo json_encode(["success" => false, "message" => "Incomplete data"]);
 }
+
+
 ?>

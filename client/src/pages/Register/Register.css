@@ -1,19 +1,24 @@
+
 .body {
     background-image: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1)), url(../../assets/image1.jpg);
     background-repeat: no-repeat;
     background-size: cover;
     background-attachment: fixed;
-    min-height: 100vh; 
-    display: flex;
-    justify-content: center; 
-    align-items: center; 
+    height: 100vh; /* Set height to full viewport */
+    display: flex; /* Flexbox for centering */
+    justify-content: center; /* Horizontally center */
+    align-items: center; /* Vertically center */
+    margin: 0; /* Remove any margins */
+    padding: 0; /* Remove any padding */
+    box-sizing: border-box; /* Ensure consistent layout */
 }
-
 
 .container {
     display: flex;
     justify-content: center;
     align-items: center;
+    width: 100%; /* Ensure full-width scaling */
+    height: auto; /* Adapt height */
 }
 
 .form {
@@ -24,10 +29,11 @@
     background-color: #fff;
     padding: 20px;
     border-radius: 20px;
-    position: relative;
     box-shadow: 5px 5px 20px 5px;
 }
 
+
+/* Title styling */
 .title {
     font-size: 28px;
     color: royalblue;
@@ -85,7 +91,7 @@
     gap: 10px; /* Space between fields */
 }
 
-/* Style for each label and its input */
+/* Label and input styling */
 .form label {
     position: relative;
     display: flex;
@@ -101,6 +107,7 @@
     border-radius: 10px;
 }
 
+/* Floating label effect */
 .form label .input + span {
     position: absolute;
     left: 10px;
@@ -135,6 +142,7 @@
     display: block; /* Ensures the error message appears below the input */
 }
 
+/* Submit button styling */
 .submit {
     border: none;
     outline: none;
