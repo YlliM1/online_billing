@@ -16,6 +16,7 @@ const Invoices = () => {
     due_date: '',
     client_address: '',
     items: [],
+    status: 'pending',
   });
   const [offers, setOffers] = useState([]); 
   const navigate = useNavigate();
@@ -112,7 +113,12 @@ const Invoices = () => {
 
   const fetchInvoices = async () => {
     try {
-      const response = await fetch('http://localhost/online_billing/server/php/fetch_offers.php');
+      let url = 'http://localhost/online_billing/server/php/fetch_offers.php';
+      if (activeTab === 'pending') {
+        url = 'http://localhost/online_billing/server/php/fetch_offers.php?status=pending';
+      }
+  
+      const response = await fetch(url);
       const data = await response.json();
   
       if (data.success) {
@@ -141,9 +147,10 @@ const Invoices = () => {
     }
   };
   
+  
 
   useEffect(() => {
-    if (activeTab === 'invoices') {
+    if (activeTab === 'invoices'|| activeTab === 'pending') {
       fetchInvoices();
     }
   }, [activeTab]);
@@ -236,6 +243,23 @@ const Invoices = () => {
                 </div>
               </div>
               <div className="invoices-items-section mb-3">
+              <div className="row mb-3">
+                <div className="col-md-6">
+                <label htmlFor="status" className="form-label">Status</label>
+                <select
+                  className="form-control"
+                  id="status"
+                  name="status"
+                  value={formData.status}
+                  onChange={handleInputChange}
+                  required
+                >
+                  <option value="pending">Pending</option>
+                  <option value="approved">Approved</option>
+                  <option value="rejected">Rejected</option>
+                </select>
+                </div>
+</div>
                 <h4>Items</h4>
                 {formData.items.map((item, index) => (
                   <div key={index} className="row mb-2">
@@ -327,12 +351,59 @@ const Invoices = () => {
             </table>
           </div>
         );
-      case 'pending':
-        return <div className="mt-4">Pending Content</div>;
-      default:
-        return null;
-    }
-  };
+        case 'pending':
+          return (
+            <div className="mt-4">
+              <h2>Pending Offers</h2>
+              <table className="invoices-table table table-striped">
+                <thead>
+                  <tr>
+                    <th>Project</th>
+                    <th>Client</th>
+                    <th>Email</th>
+                    <th>Offer Date</th>
+                    <th>Due Date</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {offers.length > 0 ? (
+                    offers.map((offer) => (
+                      <tr key={offer.id}>
+                        <td>{offer.project}</td>
+                        <td>{offer.client}</td>
+                        <td>{offer.email}</td>
+                        <td>{offer.offer_date}</td>
+                        <td>{offer.due_date}</td>
+                        <td>
+                          <PDFDownloadLink
+                            document={<OfferPDF offer={offer} />}
+                            fileName={`offer_${offer.id}.pdf`}
+                            style={{
+                              textDecoration: 'none',
+                              color: '#007bff',
+                              fontWeight: 'bold',
+                            }}
+                          >
+                            Download PDF
+                          </PDFDownloadLink>
+                        </td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan="6">No pending offers available.</td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
+          );
+        default:
+          return null;
+      }
+    };
+    
 
   return (
     <div>

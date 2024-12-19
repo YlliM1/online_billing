@@ -14,7 +14,8 @@ exports.up = function(knex) {
         // Add your new fields here
         table.text('items').notNullable(); // For storing items (as text or JSON)
         table.integer('quantity').notNullable(); // Quantity of items
-        table.decimal('price', 10, 2).notNullable(); // Price per item
+        table.decimal('price', 10, 2).notNullable(); 
+        table.string('status').defaultTo('Approved').notNullable();
     });
 };
 
