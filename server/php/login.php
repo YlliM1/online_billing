@@ -1,5 +1,4 @@
 <?php
-
 session_start();
 
 header("Access-Control-Allow-Origin: *");
@@ -18,7 +17,7 @@ if (empty($email) || empty($password)) {
     exit();
 }
 
-$query = "SELECT id, password, firstname FROM users WHERE email = ?";  
+$query = "SELECT id, password, firstname, role FROM users WHERE email = ?";  
 $stmt = $conn->prepare($query);
 $stmt->bind_param("s", $email);
 $stmt->execute();
@@ -30,11 +29,17 @@ if ($result->num_rows > 0) {
         $_SESSION['user_id'] = $user['id'];
         $_SESSION['last_activity'] = time();  
 
+        // Check if the logged-in user is the specific admin email
+        if ($email === 'yllmurati@gmail.com') {
+            $user['role'] = 'admin'; // Assign admin role directly
+        }
+
         echo json_encode([
             "success" => true,
             "message" => "Login successful",
             "user_id" => $user['id'],
-            "firstname" => $user['firstname']  
+            "firstname" => $user['firstname'],
+            "role" => $user['role']  // Return the user's role (admin or other)
         ]);
     } else {       
         echo json_encode(["success" => false, "message" => "Invalid password."]);

@@ -10,6 +10,7 @@ exports.up = function(knex) {
         table.string('email').notNullable();
         table.string('password').notNullable(); 
         table.string('confirmPassword').notNullable(); 
+        table.string('role').defaultTo('user').notNullable();
     });
 };
 
