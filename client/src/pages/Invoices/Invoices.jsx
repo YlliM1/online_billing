@@ -495,7 +495,7 @@ const Invoices = () => {
 
   return (
     <div>
-      <Navbar />
+      <Navbar  userName={userName} handleLogout={handleLogout}/>
       <div className="invoices-container">
         <h1>Invoices</h1>
         <div className="tabs">
