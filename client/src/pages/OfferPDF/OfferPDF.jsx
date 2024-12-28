@@ -60,8 +60,7 @@ const OfferPDF = ({ offer }) => {
               <Text style={styles.tableCell}>Price</Text>
             </View>
             {items.map((item, index) => {
-              // Validate price and ensure it's a number
-              const price = !isNaN(parseFloat(item.price)) ? parseFloat(item.price) : 0; // Default to 0 if not valid
+              const price = !isNaN(parseFloat(item.price)) ? parseFloat(item.price) : 0; 
               return (
                 <View style={styles.tableRow} key={index}>
                   <Text style={styles.tableCell}>{item.name}</Text>

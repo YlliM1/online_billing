@@ -82,38 +82,40 @@ const Invoices = () => {
   };
 
   const renderActions = (offer) => {
-    if (userRole === 'admin') {
-      return (
-        <div className="d-flex justify-content-center align-items-center">
-          {/* Edit Icon (Pen) */}
+    return (
+      <div className="d-flex justify-content-center align-items-center">
+        {/* Edit Icon (Pen) - Visible only for admin */}
+        {userRole === 'admin' && (
           <button className="btn btn-link" onClick={() => handleEdit(offer)} style={{ color: 'blue' }}>
             <FaPen />
           </button>
+        )}
   
-          {/* Delete Icon (Trash) */}
+        {/* Delete Icon (Trash) - Visible only for admin */}
+        {userRole === 'admin' && (
           <button className="btn btn-link" onClick={() => handleDelete(offer.id)} style={{ color: 'red' }}>
             <FaTrashAlt />
           </button>
+        )}
   
-          {/* Download PDF Button - Positioned to the right */}
-          <PDFDownloadLink
-            document={<OfferPDF offer={offer} />}
-            fileName={`offer_${offer.id}.pdf`}
-            style={{
-              textDecoration: 'none',
-              color: '#007bff',
-              fontWeight: 'bold',
-              marginLeft: '20px', 
-              display: 'inline-block',
-            }}
-          >
-            {({ loading }) => (loading ? <FaDownload /> : 'Download PDF')}
-          </PDFDownloadLink>
-        </div>
-      );
-    }
-    return null;
+        {/* Download PDF Button - Visible for both admin and user */}
+        <PDFDownloadLink
+          document={<OfferPDF offer={offer} />}
+          fileName={`offer_${offer.id}.pdf`}
+          style={{
+            textDecoration: 'none',
+            color: '#007bff',
+            fontWeight: 'bold',
+            marginLeft: '20px',
+            display: 'inline-block',
+          }}
+        >
+          {({ loading }) => (loading ? <FaDownload /> : 'Download PDF')}
+        </PDFDownloadLink>
+      </div>
+    );
   };
+  
 
   const handleItemChange = (index, field, value) => {
     const updatedItems = [...formData.items];
