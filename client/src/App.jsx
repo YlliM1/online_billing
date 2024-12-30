@@ -4,8 +4,10 @@ import Register from './pages/Register/Register'
 import Login from './pages/Login/Login'
 import Dashboard from './pages/Dashboard/Dashboard'
 import Invoices from './pages/Invoices/Invoices'
+import Team from './pages/Team/Team'
 import OfferPDF from './pages/OfferPDF/OfferPDF'
 import {BrowserRouter, Routes, Route} from 'react-router-dom'
+
 
 
 
@@ -22,6 +24,7 @@ function App() {
           <Route path='/dashboard' element={<Dashboard />} />
           <Route path='/invoices' element={<Invoices />} />
           <Route path='/offerPDF' element={<OfferPDF />} />
+          <Route path='/team' element={<Team />} />
         </Routes>
         </BrowserRouter>
     </>

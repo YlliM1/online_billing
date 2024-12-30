@@ -1,8 +1,8 @@
 <?php
-include 'db.php'; 
+include 'db.php';
 
 header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Methods: POST");
+header("Access-Control-Allow-Methods: GET");
 header("Access-Control-Allow-Headers: Content-Type");
 
 header('Content-Type: application/json');
@@ -10,7 +10,6 @@ header('Content-Type: application/json');
 $response = ['success' => false, 'data' => []];
 
 try {
-    // Check if status is provided in the query string and filter accordingly
     $status = isset($_GET['status']) ? $_GET['status'] : null;
 
     if ($status) {
@@ -25,14 +24,13 @@ try {
     $stmt->execute();
     $result = $stmt->get_result();
 
-    if ($result->num_rows > 0) {
-        while ($row = $result->fetch_assoc()) {
-            $response['data'][] = $row;
-        }
-        $response['success'] = true;
-    } else {
-        $response['message'] = 'No offers found.';
+    $offers = [];
+    while ($row = $result->fetch_assoc()) {
+        $offers[] = $row;
     }
+
+    $response['success'] = true;
+    $response['data'] = $offers;
 } catch (Exception $e) {
     $response['message'] = $e->getMessage();
 }
