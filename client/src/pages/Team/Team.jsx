@@ -138,6 +138,11 @@ const Team = () => {
     }
   };
 
+  const handleEdit = (userId) => {
+    const userToEdit = users.find(user => user.id === userId);
+    setEditingUser({ ...userToEdit });
+  };
+
   const handleEditSubmit = async () => {
     if (!validateForm(editingUser)) return;
 
@@ -168,6 +173,31 @@ const Team = () => {
       setEditingUser({ ...editingUser, [name]: value });
     } else {
       setNewUser({ ...newUser, [name]: value });
+    }
+  };
+
+  const handleDelete = async (userId) => {
+    const confirmDelete = window.confirm('Are you sure you want to delete this user?');
+    if (!confirmDelete) return;
+
+    try {
+      const response = await fetch('http://localhost/online_billing/server/php/delete_user.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: userId }),
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        alert('User deleted successfully');
+        setUsers(users.filter(user => user.id !== userId));
+      } else {
+        alert('Failed to delete user');
+      }
+    } catch (error) {
+      console.error('Error deleting user:', error);
+      alert('An error occurred while deleting the user.');
     }
   };
 
@@ -271,6 +301,7 @@ const Team = () => {
           <button onClick={handleEditSubmit}>Update User</button>
         </div>
       )}
+
       {/* Users Table */}
       <div className="table-container">
         <table className="user-list-table">
@@ -291,11 +322,11 @@ const Team = () => {
                   <td>{user.id}</td>
                   <td>{user.firstname}</td>
                   <td>{user.lastname}</td>
- <td>{user.email}</td>
+                  <td>{user.email}</td>
                   <td>{user.role}</td>
                   {isAdmin && (
                     <td className="actions">
-                      <button className="action-btn edit-btn" onClick={() => handleEdit(user.id)}>
+                                      <button className="action-btn edit-btn" onClick={() => handleEdit(user.id)}>
                         <FaPen />
                       </button>
                       <button className="action-btn delete-btn" onClick={() => handleDelete(user.id)}>
@@ -307,7 +338,7 @@ const Team = () => {
               ))
             ) : (
               <tr>
-                <td colSpan="6">No users found.</td>
+                <td colSpan="6">No users found</td>
               </tr>
             )}
           </tbody>
@@ -318,3 +349,4 @@ const Team = () => {
 };
 
 export default Team;
+
